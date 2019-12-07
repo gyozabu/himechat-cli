@@ -59,7 +59,7 @@ func Start(config Config) (string, error) {
 	}
 	// 句読点レベルに応じて、おじさんのように文中に句読点を適切に挿入する
 	result := insertPunctuations(selectedMessage, pconfigs[level])
-
+    result := insertLower(result,)
 	return result, nil
 }
 
@@ -148,5 +148,6 @@ func insertPunctuations(message string, config PunctuationConfig) string {
 }
 
 func insertLower(message string, rate int) string {
+
   return message
 }
