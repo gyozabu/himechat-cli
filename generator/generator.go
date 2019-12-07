@@ -146,3 +146,7 @@ func insertPunctuations(message string, config PunctuationConfig) string {
 	}
 	return result
 }
+
+func insertLower(message string, rate int) string {
+  return message
+}
