@@ -159,11 +159,6 @@ func selectMessage() string {
 // 	return string(hiraganas[1]) + kanaconv.HiraganaToKatakana(string(hiraganas[2])) + string(hiraganas[3])
 // }
 
-//マジや卍などを挿入する
-func insertHappyWords() string {
-
-}
-
 // 句読点レベルに応じ、助詞、助動詞の後に句読点を挿入する
 func insertPunctuations(message string, config PunctuationConfig, plevel int) string {
 	if config.Rate == 0 {
