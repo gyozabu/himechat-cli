@@ -58,21 +58,21 @@ var pconfigs = []PunctuationConfig{
 
 // こっちはHappyWordsの設定
 var hconfigs = []PunctuationConfig{
-	{	// レベル0
+	{ // レベル0
 		TargetHinshis: []string{},
-		Rate:		   0,
+		Rate:          0,
 	},
-	{	// レベル1
+	{ // レベル1
 		TargetHinshis: []string{"形容詞"},
-		Rate:		   40,
+		Rate:          40,
 	},
-	{	// レベル2
+	{ // レベル2
 		TargetHinshis: []string{"助動詞", "形容詞"},
-		Rate:		   60,
+		Rate:          60,
 	},
-	{	// レベル3
+	{ // レベル3
 		TargetHinshis: []string{"助動詞", "形容詞"},
-		Rate:		   100,
+		Rate:          100,
 	},
 }
 
@@ -91,7 +91,7 @@ func Start(config Config) (string, error) {
 
 	// メッセージに含まれるタグを変換
 	selectedMessage = pattern.ConvertTags(selectedMessage, config.TargetName, config.EmojiNum)
-  
+
 	plevel := 3 // config.PunctiuationLevel
 	hlevel := 3 // config.HappyLevel
 	if plevel < 0 || plevel > 3 {
@@ -101,6 +101,7 @@ func Start(config Config) (string, error) {
 		return "", fmt.Errorf("ハッピーレベルが不正です: %v", hlevel)
 	}
 	// 句読点レベルに応じて、おじさんのように文中に句読点を適切に挿入する
+	selectedMessage = OomojiToKomoji(selectedMessage)
 	result := insertPunctuations(selectedMessage, pconfigs[plevel], plevel)
 	result = insertHappyWords(result, hconfigs[hlevel])
 	return result, nil
