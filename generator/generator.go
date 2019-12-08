@@ -35,6 +35,7 @@ var backManjiWords = []string{
 	"ぴえん🥺",
 	"卍卍",
 	"卍",
+	"（笑）",
 }
 
 var pconfigs = []PunctuationConfig{
@@ -48,11 +49,11 @@ var pconfigs = []PunctuationConfig{
 	},
 	{
 		TargetHinshis: []string{"助動詞", "助詞"},
-		Rate:          60,
+		Rate:          40,
 	},
 	{
 		TargetHinshis: []string{"助動詞", "助詞"},
-		Rate:          100,
+		Rate:          60,
 	},
 }
 
@@ -64,15 +65,15 @@ var hconfigs = []PunctuationConfig{
 	},
 	{	// レベル1
 		TargetHinshis: []string{"形容詞"},
-		Rate:		   40,
+		Rate:		   20,
 	},
 	{	// レベル2
 		TargetHinshis: []string{"助動詞", "形容詞"},
-		Rate:		   60,
+		Rate:		   40,
 	},
 	{	// レベル3
 		TargetHinshis: []string{"助動詞", "形容詞"},
-		Rate:		   100,
+		Rate:		   80,
 	},
 }
 
