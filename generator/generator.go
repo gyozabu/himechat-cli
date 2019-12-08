@@ -3,14 +3,16 @@ package generator
 import (
 	"fmt"
 	"math/rand"
-	"regexp"
-	"strconv"
+	// "regexp"
+	// "strconv"
 	"time"
-
+	"strings"
+	// "unicode"
 	"github.com/gyozabu/himechat-cli/pattern"
 	"github.com/ikawaha/kagome.ipadic/tokenizer"
-	"github.com/miiton/kanaconv"
-	"golang.org/x/exp/utf8string"
+	// "github.com/miiton/kanaconv"
+	// "golang.org/x/exp/utf8string"
+	// "unicode/utf8"
 )
 
 // PunctuationConfig ... 句読点挿入の設定
@@ -60,7 +62,7 @@ func Start(config Config) (string, error) {
 	}
 	// 句読点レベルに応じて、おじさんのように文中に句読点を適切に挿入する
 	result := insertPunctuations(selectedMessage, pconfigs[level])
-    result := insertLower(result,)
+    result = insertLower(result)
 	return result, nil
 }
 
@@ -117,7 +119,7 @@ func selectMessage() string {
 // 	return string(hiraganas[1]) + kanaconv.HiraganaToKatakana(string(hiraganas[2])) + string(hiraganas[3])
 // }
 
-// マジや卍などを挿入する
+//マジや卍などを挿入する
 func insertHappyWords() string {
 
 }
@@ -154,7 +156,17 @@ func insertPunctuations(message string, config PunctuationConfig) string {
 	return result
 }
 
-func insertLower(message string, rate int) string {
+var upper2lower = strings.NewReplacer(
+	"あ", "ぁ", "い", "ぃ", "う", "ぅ", "え", "ぇ", "お", "ぉ",
+	"や", "ゃ", "ゆ", "ゅ", "よ", "ょ","わ", "ゎ","つ", "っ",
+	"ア", "ァ", "イ", "ィ", "ウ", "ゥ", "エ", "ェ", "オ", "ォ",
+	"ヤ", "ャ", "ユ", "ュ", "ヨ", "ョ","ワ", "ヮ","ツ", "ッ",
+)
 
-  return message
+func OomojiToKomoji(s string) string{
+	return upper2lower.Replace(s)
+}
+
+func insertLower(message string) string {
+	return OomojiToKomoji(message)
 }
