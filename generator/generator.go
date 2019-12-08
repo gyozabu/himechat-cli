@@ -6,11 +6,13 @@ import (
 	// "regexp"
 	// "strconv"
 	"time"
-
+	"strings"
+	// "unicode"
 	"github.com/gyozabu/himechat-cli/pattern"
 	"github.com/ikawaha/kagome.ipadic/tokenizer"
-	"github.com/miiton/kanaconv"
-	"golang.org/x/exp/utf8string"
+	// "github.com/miiton/kanaconv"
+	// "golang.org/x/exp/utf8string"
+	// "unicode/utf8"
 )
 
 // PunctuationConfig ... 句読点挿入の設定
@@ -84,9 +86,9 @@ func Start(config Config) (string, error) {
 		return "", fmt.Errorf("ハッピーレベルが不正です: %v", hlevel)
 	}
 	// 句読点レベルに応じて、おじさんのように文中に句読点を適切に挿入する
-	result := insertPunctuations(selectedMessage, pconfigs[plevel])
-	result = insertHappyWords(result, hconfigs[hlevel])
 
+	result := insertPunctuations(selectedMessage, pconfigs[level])
+  result = insertLower(result)
 	return result, nil
 }
 
@@ -142,6 +144,11 @@ func selectMessage() string {
 // 	}
 // 	return string(hiraganas[1]) + kanaconv.HiraganaToKatakana(string(hiraganas[2])) + string(hiraganas[3])
 // }
+
+//マジや卍などを挿入する
+func insertHappyWords() string {
+
+}
 
 // 句読点レベルに応じ、助詞、助動詞の後に句読点を挿入する
 func insertPunctuations(message string, config PunctuationConfig) string {
