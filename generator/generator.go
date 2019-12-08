@@ -21,20 +21,21 @@ type PunctuationConfig struct {
 	Rate          int      // 句読点を挿入する確率(百分率)
 }
 
-// frontHappyWords ぴえん🥺
-var frontHappyWords = []string{
+// frontManjiWords ぴえん🥺
+var frontManjiWords = []string{
 	"ぴえん🥺",
 	"ゆーて",
 	"めっちゃ",
 }
 
 // ハッピーワードには後置詞もあります
-var backHappyWords = []string{
+var backManjiWords = []string{
 	"ぴえん🥺",
 	"ぴえん🥺",
 	"ぴえん🥺",
 	"卍卍",
 	"卍",
+	"（笑）",
 }
 
 var pconfigs = []PunctuationConfig{
@@ -48,31 +49,31 @@ var pconfigs = []PunctuationConfig{
 	},
 	{
 		TargetHinshis: []string{"助動詞", "助詞"},
-		Rate:          60,
+		Rate:          40,
 	},
 	{
 		TargetHinshis: []string{"助動詞", "助詞"},
-		Rate:          100,
+		Rate:          60,
 	},
 }
 
-// こっちはHappyWordsの設定
+// こっちはManjiWordsの設定
 var hconfigs = []PunctuationConfig{
-	{	// レベル0
+	{ // レベル0
 		TargetHinshis: []string{},
-		Rate:		   0,
+		Rate:          0,
 	},
-	{	// レベル1
+	{ // レベル1
 		TargetHinshis: []string{"形容詞"},
+		Rate:		   20,
+	},
+	{ // レベル2
+		TargetHinshis: []string{"助動詞", "形容詞"},
 		Rate:		   40,
 	},
-	{	// レベル2
+	{ // レベル3
 		TargetHinshis: []string{"助動詞", "形容詞"},
-		Rate:		   60,
-	},
-	{	// レベル3
-		TargetHinshis: []string{"助動詞", "形容詞"},
-		Rate:		   100,
+		Rate:		   80,
 	},
 }
 
@@ -81,6 +82,7 @@ type Config struct {
 	TargetName        string `docopt:"<name>"`
 	EmojiNum          int    `docopt:"-e"`
 	PunctiuationLevel int    `docopt:"-p"`
+	ManjiLevel		  int    `docopt:"-m"`
 }
 
 // Start ... おじさんの文言を生成
@@ -92,8 +94,8 @@ func Start(config Config) (string, error) {
 	// メッセージに含まれるタグを変換
 	selectedMessage = pattern.ConvertTags(selectedMessage, config.TargetName, config.EmojiNum)
   
-	plevel := 3 // config.PunctiuationLevel
-	hlevel := 3 // config.HappyLevel
+	plevel := config.PunctiuationLevel
+	hlevel := config.ManjiLevel
 	if plevel < 0 || plevel > 3 {
 		return "", fmt.Errorf("句読点挿入頻度レベルが不正です: %v", plevel)
 	}
@@ -101,8 +103,9 @@ func Start(config Config) (string, error) {
 		return "", fmt.Errorf("ハッピーレベルが不正です: %v", hlevel)
 	}
 	// 句読点レベルに応じて、おじさんのように文中に句読点を適切に挿入する
+	selectedMessage = OomojiToKomoji(selectedMessage)
 	result := insertPunctuations(selectedMessage, pconfigs[plevel], plevel)
-	result = insertHappyWords(result, hconfigs[hlevel])
+	result = insertManjiWords(result, hconfigs[hlevel])
 	return result, nil
 }
 
@@ -192,7 +195,7 @@ func insertPunctuations(message string, config PunctuationConfig, plevel int) st
 }
 
 // マジや卍などを挿入する
-func insertHappyWords(message string, config PunctuationConfig) string {
+func insertManjiWords(message string, config PunctuationConfig) string {
 	if config.Rate == 0 {
 		return message
 	}
@@ -213,7 +216,7 @@ func insertHappyWords(message string, config PunctuationConfig) string {
 			}
 		}
 		if hinshiFlag && rand.Intn(100) <= config.Rate {
-			result += frontHappyWords[rand.Intn(len(frontHappyWords))] + token.Surface + backHappyWords[rand.Intn(len(backHappyWords))]
+			result += frontManjiWords[rand.Intn(len(frontManjiWords))] + token.Surface + backManjiWords[rand.Intn(len(backManjiWords))]
 		} else {
 			result += token.Surface
 		}

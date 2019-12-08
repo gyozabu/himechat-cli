@@ -6,112 +6,54 @@ type OhimesamaEmotion int
 const (
 	// GREETING ... 挨拶
 	GREETING OhimesamaEmotion = iota
-	// QUESTION ... 疑問
-	QUESTION
-	// REPORTING ... 報告
-	REPORTING
-	// CHEERING ... 応援
-	CHEERING
-	// SYMPATHY ... 気遣い/慰め/同情
-	SYMPATHY
-	// PRAISING ... 褒める
-	PRAISING
-	// ADMIRATION ... 自分が参った表現(感服)
-	ADMIRATION
+	// COMMENT ... コメント
+	COMMENT
+	// JKGREETING ... JKの挨拶
+	JKGREETING
+	// JKCOMMENT ... JKのコメント
+	JKCOMMENT
+	// MENHERAGREETING ... メンヘラの挨拶
+	MENHERAGREETING
+	// MENHERACOMMENT ... メンヘラのコメント
+	MENHERACOMMENT
 )
 
 // Onara ... Ohimesama NArikiri Randomized Algorithm: お姫様なりきり乱択アルゴリズム
 // お姫様の感情表現の順番を表す。
 // 近年の研究により (README.md 参考文献[1]) お姫様になりきるための効果的なアルゴリズムが提唱されている。
 var Onara = [][]OhimesamaEmotion{
-	// GQS パターン
-	[]OhimesamaEmotion{GREETING, QUESTION, SYMPATHY},
-	// GR パターン
-	[]OhimesamaEmotion{GREETING, REPORTING},
 	// GC パターン
-	[]OhimesamaEmotion{GREETING, CHEERING},
-	// GQ パターン
-	[]OhimesamaEmotion{GREETING, QUESTION},
-	// PA パターン
-	[]OhimesamaEmotion{PRAISING, ADMIRATION},
-	// S パターン (短いので SS にする)
-	[]OhimesamaEmotion{SYMPATHY, SYMPATHY},
+	[]OhimesamaEmotion{GREETING, COMMENT},
+	// GC パターン2
+	[]OhimesamaEmotion{GREETING, COMMENT, COMMENT},
+	// JK パターン
+	[]OhimesamaEmotion{JKGREETING, JKCOMMENT},
+	// JK パターン2
+	[]OhimesamaEmotion{JKGREETING, JKCOMMENT, JKCOMMENT},
+	// MENHERA パターン
+	[]OhimesamaEmotion{MENHERAGREETING, MENHERACOMMENT},
 }
 
 // OnaraMessages .. メッセージのテンプレート
 // メッセージ中の{TARGET_NAME} などのタグについては tags.go 参照
 var OnaraMessages = [][]string{
 	GREETING: []string{
-		"いっけなーい{EMOJI_NEG}殺意殺意{EMOJI_NEG}",
 		"{TARGET_NAME}{EMOJI_POS}",
 		"{TARGET_NAME}お疲れ様{EMOJI_POS}{EMOJI_POS}",
-		"{TARGET_NAME}{EMOJI_POS}",
 		"おはよう{TARGET_NAME}{EMOJI_POS}",
 		"{TARGET_NAME}ヤッホー！{EMOJI_POS}なにしてるん{EMOJI_ASK}",
-		"{TARGET_NAME}先輩、今日もお仕事かな{EMOJI_POS}",
-		"ヤッホー{EMOJI_POS}{TARGET_NAME}、元気かな{EMOJI_ASK}",
-		"{TARGET_NAME}、会社をサボるなんて、悪い子だなぁ{EMOJI_POS}",
-		"おはよー！チュッ{EMOJI_POS}",
-		"{TARGET_NAME}、久しぶり{EMOJI_POS}",
-		"あれ{EMOJI_NEG}{TARGET_NAME}、朝と夜間違えたのかな{EMOJI_ASK}{FIRST_PERSON}はまだ起きてますよ〜{EMOJI_POS}",
-		"{TARGET_NAME}、そっちも{WEATHER}なのかな{EMOJI_ASK}",
-		"{TARGET_NAME}、こんな遅い時間{EMOJI_NEUT}に何をしているのかな{EMOJI_ASK}",
+		"{TARGET_NAME}、今日もお仕事かな{EMOJI_POS}",
+		"おはよー！{EMOJI_POS}",
+		"{TARGET_NAME}久しぶり{EMOJI_POS}",
+		"{FIRST_PERSON}はまだ起きてますよ〜{EMOJI_POS}",
 	},
-	QUESTION: []string{
-		"よーーーくかんがえよーーー{TARGET_NAME}はあたおかよーーーー",
-		"今日はどんな一日だった{EMOJI_ASK}",
-		"今日は{WEATHER}だけどなにするのかな{EMOJI_ASK}",
-		"{RESTAURANT}好きかな{EMOJI_ASK}",
-		"{TARGET_NAME}も今日も2時までお仕事かな{EMOJI_ASK}",
-		"ちょっと電話できるかな{EMOJI_ASK}",
-		"{DAY_OF_WEEK}曜日は仕事〜{EMOJI_ASK}",
-		"今日はもう寝ちゃったのかな{EMOJI_NEUT}",
-		"たまには{FIRST_PERSON}にも連絡ほしいな{EMOJI_POS}",
-		"{FIRST_PERSON}明日も仕事だけどなかなか寝れないよ〜{EMOJI_NEG}早く{TARGET_NAME}に会いたいよ{EMOJI_NEG}",
-		"{TARGET_NAME}と一緒に今度ランチ、したいなぁ{EMOJI_POS}",
-		"{TARGET_NAME}と今度イチャイチャ、したいなぁ{EMOJI_POS}",
-		"{TARGET_NAME}の髪色めちゃくちゃすき{EMOJI_POS}{EMOJI_POS}わたしもしたい{EMOJI_POS}",
-	},
-	REPORTING: []string{
+	COMMENT: []string{
+		"顔面可愛いのに死ぬほどテンション高くておもしろいしめちゃめちゃらぶじゃん〜🥰🥰ずっ友や{TARGET_NAME}しか勝たん😢いい一年にしてね〜‼️",
 		"私、看護学生{EMOJI_POS}医療系の学科ばかりの大学で毎日勉強{EMOJI_POS}でもある日「看護師は皆医者狙うためになるんだろ」とかいうクソ男が現れてもう大変{EMOJI_NEG}",
-		"{TARGET_NAME}{EMOJI_POS}世界一ツインテールが似合うかわいあかわいい天使です{EMOJI_POS}",
-		"{FIRST_PERSON}は、近所に新しくできた{RESTAURANT}に行ってきたよ。味はまぁまぁだったかな{EMOJI_POS}",
-		"そういえば、昨日は例の{RESTAURANT}に行ってきたよ。結構いい雰囲気だったから、オススメだよ{EMOJI_POS}",
+		"{FIRST_PERSON}は、近所に新しくできた{SPOT}に行ってきたよ。まぁまぁだったかな{EMOJI_POS}",
+		"そういえば、昨日は例の{SPOT}に行ってきたよ。結構いい雰囲気だったから、オススメだよ{EMOJI_POS}",
 		"{FIRST_PERSON}は今日から{LOCATION}へ〜{EMOJI_POS}",
-		"お弁当の{FOOD}が美味しくて、それと一緒に{TARGET_NAME}のことも食べちゃいたいな〜{EMOJI_POS}",
-		"本日のランチ🍴は奮発して{FOOD}付き{EMOJI_POS}誰だメタボなんて言ったやつは{EMOJI_NEG}",
-		"出張で{LOCATION}に行ってきたよ{EMOJI_POS}観光でも、行きたいなぁ{EMOJI_POS}モチロン、{TARGET_NAME}とね",
-		"ほんとこれおもろしすぎてしぬｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗ",
-		"ぴえん😢ぴえん😢ぴえん😢ぴえん😢ぴえ😢ぴえ😢ぴえ😢ぴえ😢ぴえ😢ぴえ😢ぴえ😢ぴえ😢ぴえ〜〜〜〜〜〜〜〜ん😢むりみ😭",
-		"ふぁぼぼぼぼってちょぉーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーだい{EMOJI_POS}！！！",
-	},
-	CHEERING: []string{
-		"今日も頑張ってね{EMOJI_POS}",
-		"{TARGET_NAME}にとって素敵な1日になりますように{EMOJI_POS}",
-		"今日は楽しい時間をありがとうね{EMOJI_POS}すごく、楽しかったよ{EMOJI_POS}",
-		"早く会いたいな{EMOJI_POS}",
-		"ありがとう{EMOJI_POS}",
-		"ほんまラブ会いたいんやけど？？？{EMOJI_POS}",
-		"もっともっと仲良くなる{EMOJI_POS}",
-	},
-	PRAISING: []string{
-		"{TARGET_NAME}、愛しいなぁもう{EMOJI_POS}",
-		"{TARGET_NAME}は、スタイルがいいね{EMOJI_POS}",
-		"{TARGET_NAME}のお目々、キラキラ{EMOJI_POS}してるね{EMOJI_POS}",
-		"{TARGET_NAME}は、お肌がきれい✨だね{EMOJI_POS}",
-		"{TARGET_NAME}、髪の毛、切ったのかな{EMOJI_ASK}似合いすぎだよ{EMOJI_POS}",
-		"{TARGET_NAME}、可愛らしいね{EMOJI_POS}",
-		"えっなにそれやばい沸いた好きすぎるんだけど？！？！？！",
-	},
-	ADMIRATION: []string{
-		"今から寝ようと思ってたのに、目が覚めちゃったよ{EMOJI_POS}どうしてくれるんだ{EMOJI_POS}",
-		"可愛すぎて{FIRST_PERSON}お仕事に集中できなくなっちゃいそうだよ{EMOJI_NEG}どうしてくれるんだ{EMOJI_POS}",
-		"ホント可愛すぎだよ〜{EMOJI_POS}マッタクもう{EMOJI_POS}",
-		"こんなに可愛く{EMOJI_POS}なっちゃったら{METAPHOR}みたいで{FIRST_PERSON}困っちゃうよ{EMOJI_NEG}",
-		"{FIRST_PERSON}、本当に{METAPHOR}かと思っちゃったよ{EMOJI_POS}",
-		"えっなにそれやばい沸いた好きすぎるんだけど？！？！？！",
-	},
-	SYMPATHY: []string{
+		"{TARGET_NAME}の髪色めちゃくちゃすき{EMOJI_POS}{EMOJI_POS}わたしもしたい{EMOJI_POS}",
 		"{TARGET_NAME}{EMOJI_POS}元気、ないのかなぁ{EMOJI_NEG}大丈夫{EMOJI_ASK}",
 		"僕は、すごく心配だよ{EMOJI_NEG}そんなときは、美味しいもの食べて、元気出さなきゃだね{EMOJI_POS}",
 		"今日も大変だったんだね{EMOJI_NEG}",
@@ -123,5 +65,48 @@ var OnaraMessages = [][]string{
 		"風邪ひかないようにね{EMOJI_POS}",
 		"寒いけど、頑張ってね{EMOJI_NEUT}",
 		"ゆっくり、身体休めてね{EMOJI_POS}オヤスミナサイ{EMOJI_NEUT}",
+		"今日も頑張ってね{EMOJI_POS}",
+		"{TARGET_NAME}にとって素敵な1日になりますように{EMOJI_POS}",
+		"今日は楽しい時間をありがとうね{EMOJI_POS}すごく、楽しかったよ{EMOJI_POS}",
+		"早く会いたいな{EMOJI_POS}",
+		"ありがとう{EMOJI_POS}",
+		"今日はどんな一日だった{EMOJI_ASK}",
+	},
+	JKGREETING: []string{
+		"{TARGET_NAME}{EMOJI_POS}",
+		"おはよー！{EMOJI_POS}",
+		"{TARGET_NAME}ヤッホー！{EMOJI_POS}なにしてるん{EMOJI_ASK}",
+		"{TARGET_NAME}{EMOJI_POS}",
+		"{TARGET_NAME}誕生日おめでとう🐶💖",
+		"*⑅୨୧---------お友達探し----------୨୧⑅* ♡{TARGET_NAME}♡",
+		"{EMOJI_POS}{TARGET_NAME}しか勝たん卍{EMOJI_POS}",
+	},
+	JKCOMMENT: []string{
+		"ほんとこれおもろしすぎてしぬｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗ",
+		"ぴえん😢ぴえん😢ぴえん😢ぴえん😢ぴえ😢ぴえ😢ぴえ😢ぴえ😢ぴえ😢ぴえ😢ぴえ😢ぴえ😢ぴえ〜〜〜〜〜〜〜〜ん😢むりみ😭",
+		"ふぁぼぼぼぼってちょぉーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーだい{EMOJI_POS}！！！",
+		"ほんまラブ会いたいんやけど？？？{EMOJI_POS}",
+		"{SPOT}好きかな{EMOJI_ASK}",
+		"もっともっと仲良くなる{EMOJI_POS}",
+		"{TARGET_NAME}{EMOJI_POS}世界一ツインテールが似合うかわいあかわいい天使です{EMOJI_POS}",
+		"よーーーくかんがえよーーー{TARGET_NAME}はあたおかよーーーー",
+		"*⑅︎୨୧{TARGET_NAME}を自分なりに推してます୨୧⑅︎*",
+		"拒否等ないのでどなたでも反応ください{EMOJI_POS}{EMOJI_NEUT}",
+		"えっなにそれやばい沸いた好きすぎるんだけど？！？！？！",
+		"{FIRST_PERSON}明日も学校だけどなかなか寝れないよ〜{EMOJI_NEG}早く{TARGET_NAME}会いたい{EMOJI_NEG}",
+		"{DAY_OF_WEEK}曜日は学校{EMOJI_ASK}",
+	},
+	MENHERAGREETING: []string{
+		"いっけなーい{EMOJI_NEG}殺意殺意{EMOJI_NEG}",
+		"{TARGET_NAME}。",
+		"{TARGET_NAME}と別れた。 辛ぃ。 どぅせぅちは遊びたったってことでしょ。",
+		"「 任天堂がうどん店に 」 逆から読むと。。「 任天堂がうどん店に 」 ぃみゎかんなぃ。。。。",
+	},
+	MENHERACOMMENT: []string{
+		"今日はもう寝ちゃったのかな{EMOJI_NEUT}",
+		"ねられない{EMOJI_POS}どうしてくれるん{EMOJI_NEG}",
+		"もぅﾏﾁﾞ無理。ﾏﾘｶしょ･･･ぇ。。ﾏﾘｶ発売停止。。。ｽﾞﾙﾙﾙﾙﾙﾙﾙｗｗｗｗｽﾞﾙｯｽﾞﾙﾙﾙﾙﾙｗｗｗｗﾋﾞﾁｬｯｗｗｗ",
+		"どんどん分裂してぃまゎ32体になってる。影分身ぢゃなぃからぅちに勝ち目ゎなぃんだって。まぢ包囲されてる。っょぃ。勝てなぃ。",
+		"ぴえん😢ぴえん😢ぴえん😢ぴえん😢ぴえ😢ぴえ😢ぴえ😢ぴえ😢ぴえ😢ぴえ😢ぴえ😢ぴえ😢ぴえ〜〜〜〜〜〜〜〜ん😢むりみ😭",
 	},
 }
