@@ -42,6 +42,8 @@ var Onara = [][]OhimesamaEmotion{
 // メッセージ中の{TARGET_NAME} などのタグについては tags.go 参照
 var OnaraMessages = [][]string{
 	GREETING: []string{
+		"{TARGET_NAME}誕生日おめでとう🐶💖",
+		"*⑅୨୧---------お友達探し----------୨୧⑅* ♡{TARGET_NAME}♡",
 		"いっけなーい{EMOJI_NEG}殺意殺意{EMOJI_NEG}",
 		"{TARGET_NAME}{EMOJI_POS}",
 		"{TARGET_NAME}お疲れ様{EMOJI_POS}{EMOJI_POS}",
@@ -64,7 +66,7 @@ var OnaraMessages = [][]string{
 		"{RESTAURANT}好きかな{EMOJI_ASK}",
 		"{TARGET_NAME}も今日も2時までお仕事かな{EMOJI_ASK}",
 		"ちょっと電話できるかな{EMOJI_ASK}",
-		"{DAY_OF_WEEK}曜日は仕事〜{EMOJI_ASK}",
+		"{DAY_OF_WEEK}曜日は学校{EMOJI_ASK}",
 		"今日はもう寝ちゃったのかな{EMOJI_NEUT}",
 		"たまには{FIRST_PERSON}にも連絡ほしいな{EMOJI_POS}",
 		"{FIRST_PERSON}明日も仕事だけどなかなか寝れないよ〜{EMOJI_NEG}早く{TARGET_NAME}に会いたいよ{EMOJI_NEG}",
@@ -73,6 +75,8 @@ var OnaraMessages = [][]string{
 		"{TARGET_NAME}の髪色めちゃくちゃすき{EMOJI_POS}{EMOJI_POS}わたしもしたい{EMOJI_POS}",
 	},
 	REPORTING: []string{
+		"顔面可愛いのに死ぬほどテンション高くておもしろいしめちゃめちゃらぶじゃん〜🥰🥰ずっ友や{TARGET_NAME}しか勝たん😢いい一年にしてね〜‼️",
+		"*⑅︎୨୧{TARGET_NAME}を自分なりに推してます୨୧⑅︎*",
 		"私、看護学生{EMOJI_POS}医療系の学科ばかりの大学で毎日勉強{EMOJI_POS}でもある日「看護師は皆医者狙うためになるんだろ」とかいうクソ男が現れてもう大変{EMOJI_NEG}",
 		"{TARGET_NAME}{EMOJI_POS}世界一ツインテールが似合うかわいあかわいい天使です{EMOJI_POS}",
 		"{FIRST_PERSON}は、近所に新しくできた{RESTAURANT}に行ってきたよ。味はまぁまぁだったかな{EMOJI_POS}",
