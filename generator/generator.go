@@ -5,13 +5,14 @@ import (
 	"math/rand"
 	// "regexp"
 	// "strconv"
-	"time"
 	"strings"
-
+	"time"
+	// "unicode"
 	"github.com/gyozabu/himechat-cli/pattern"
 	"github.com/ikawaha/kagome.ipadic/tokenizer"
 	// "github.com/miiton/kanaconv"
 	// "golang.org/x/exp/utf8string"
+	// "unicode/utf8"
 )
 
 // PunctuationConfig ... 句読点挿入の設定
@@ -80,7 +81,6 @@ type Config struct {
 	TargetName        string `docopt:"<name>"`
 	EmojiNum          int    `docopt:"-e"`
 	PunctiuationLevel int    `docopt:"-p"`
-	HappyLevel		  int    `docopt:"-h"`
 }
 
 // Start ... おじさんの文言を生成
@@ -91,7 +91,7 @@ func Start(config Config) (string, error) {
 
 	// メッセージに含まれるタグを変換
 	selectedMessage = pattern.ConvertTags(selectedMessage, config.TargetName, config.EmojiNum)
-
+  
 	plevel := 3 // config.PunctiuationLevel
 	hlevel := 3 // config.HappyLevel
 	if plevel < 0 || plevel > 3 {
@@ -103,7 +103,6 @@ func Start(config Config) (string, error) {
 	// 句読点レベルに応じて、おじさんのように文中に句読点を適切に挿入する
 	result := insertPunctuations(selectedMessage, pconfigs[plevel], plevel)
 	result = insertHappyWords(result, hconfigs[hlevel])
-
 	return result, nil
 }
 
@@ -159,6 +158,11 @@ func selectMessage() string {
 // 	}
 // 	return string(hiraganas[1]) + kanaconv.HiraganaToKatakana(string(hiraganas[2])) + string(hiraganas[3])
 // }
+
+//マジや卍などを挿入する
+func insertHappyWords() string {
+
+}
 
 // 句読点レベルに応じ、助詞、助動詞の後に句読点を挿入する
 func insertPunctuations(message string, config PunctuationConfig, plevel int) string {
@@ -220,4 +224,19 @@ func insertHappyWords(message string, config PunctuationConfig) string {
 		}
 	}
 	return result
+}
+
+var upper2lower = strings.NewReplacer(
+	"あ", "ぁ", "い", "ぃ", "う", "ぅ", "え", "ぇ", "お", "ぉ",
+	"や", "ゃ", "ゆ", "ゅ", "よ", "ょ", "わ", "ゎ", "つ", "っ",
+	"ア", "ァ", "イ", "ィ", "ウ", "ゥ", "エ", "ェ", "オ", "ォ",
+	"ヤ", "ャ", "ユ", "ュ", "ヨ", "ョ", "ワ", "ヮ", "ツ", "ッ",
+)
+
+func OomojiToKomoji(s string) string {
+	return upper2lower.Replace(s)
+}
+
+func insertLower(message string) string {
+	return OomojiToKomoji(message)
 }
