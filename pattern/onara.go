@@ -42,6 +42,7 @@ var Onara = [][]OhimesamaEmotion{
 // メッセージ中の{TARGET_NAME} などのタグについては tags.go 参照
 var OnaraMessages = [][]string{
 	GREETING: []string{
+		"いっけなーい{EMOJI_NEG}殺意殺意{EMOJI_NEG}",
 		"{TARGET_NAME}{EMOJI_POS}",
 		"{TARGET_NAME}お疲れ様{EMOJI_POS}{EMOJI_POS}",
 		"{TARGET_NAME}{EMOJI_POS}",
@@ -72,9 +73,8 @@ var OnaraMessages = [][]string{
 		"{TARGET_NAME}の髪色めちゃくちゃすき{EMOJI_POS}{EMOJI_POS}わたしもしたい{EMOJI_POS}",
 	},
 	REPORTING: []string{
+		"私、看護学生{EMOJI_POS}医療系の学科ばかりの大学で毎日勉強{EMOJI_POS}でもある日「看護師は皆医者狙うためになるんだろ」とかいうクソ男が現れてもう大変{EMOJI_NEG}",
 		"{TARGET_NAME}{EMOJI_POS}世界一ツインテールが似合うかわいあかわいい天使です{EMOJI_POS}",
-		"今日は{LOCATION}30度超えるんだって{EMOJI_NEG}暑いね〜{EMOJI_NEG}こんな日は{FIRST_PERSON}と裸のお付き合い{EMOJI_POS}しよ{EMOJI_POS}",
-		"{FIRST_PERSON}はさっきお風呂入ったよ{EMOJI_POS}{TARGET_NAME}とお風呂いきたいなー{EMOJI_POS}",
 		"{FIRST_PERSON}は、近所に新しくできた{RESTAURANT}に行ってきたよ。味はまぁまぁだったかな{EMOJI_POS}",
 		"そういえば、昨日は例の{RESTAURANT}に行ってきたよ。結構いい雰囲気だったから、オススメだよ{EMOJI_POS}",
 		"{FIRST_PERSON}は今日から{LOCATION}へ〜{EMOJI_POS}",
@@ -83,6 +83,7 @@ var OnaraMessages = [][]string{
 		"出張で{LOCATION}に行ってきたよ{EMOJI_POS}観光でも、行きたいなぁ{EMOJI_POS}モチロン、{TARGET_NAME}とね",
 		"ほんとこれおもろしすぎてしぬｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗ",
 		"ぴえん😢ぴえん😢ぴえん😢ぴえん😢ぴえ😢ぴえ😢ぴえ😢ぴえ😢ぴえ😢ぴえ😢ぴえ😢ぴえ😢ぴえ〜〜〜〜〜〜〜〜ん😢むりみ😭",
+		"ふぁぼぼぼぼってちょぉーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーだい{EMOJI_POS}！！！",
 	},
 	CHEERING: []string{
 		"今日も頑張ってね{EMOJI_POS}",
