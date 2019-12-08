@@ -75,6 +75,7 @@ var OnaraMessages = [][]string{
 		"{TARGET_NAME}の髪色めちゃくちゃすき{EMOJI_POS}{EMOJI_POS}わたしもしたい{EMOJI_POS}",
 	},
 	REPORTING: []string{
+		"拒否等ないのでどなたでも反応ください{EMOJI_POS}{EMOJI_NEUT}",
 		"顔面可愛いのに死ぬほどテンション高くておもしろいしめちゃめちゃらぶじゃん〜🥰🥰ずっ友や{TARGET_NAME}しか勝たん😢いい一年にしてね〜‼️",
 		"*⑅︎୨୧{TARGET_NAME}を自分なりに推してます୨୧⑅︎*",
 		"私、看護学生{EMOJI_POS}医療系の学科ばかりの大学で毎日勉強{EMOJI_POS}でもある日「看護師は皆医者狙うためになるんだろ」とかいうクソ男が現れてもう大変{EMOJI_NEG}",
