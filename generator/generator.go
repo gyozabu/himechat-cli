@@ -21,6 +21,22 @@ type PunctuationConfig struct {
 	Rate          int      // 句読点を挿入する確率(百分率)
 }
 
+// frontHappyWords ぴえん🥺
+var frontHappyWords = []string{
+	"ぴえん🥺",
+	"ゆーて",
+	"めっちゃ",
+}
+
+// ハッピーワードには後置詞もあります
+var backHappyWords = []string{
+	"ぴえん🥺",
+	"ぴえん🥺",
+	"ぴえん🥺",
+	"卍卍",
+	"卍",
+}
+
 var pconfigs = []PunctuationConfig{
 	{
 		TargetHinshis: []string{},
@@ -40,6 +56,26 @@ var pconfigs = []PunctuationConfig{
 	},
 }
 
+// こっちはHappyWordsの設定
+var hconfigs = []PunctuationConfig{
+	{	// レベル0
+		TargetHinshis: []string{},
+		Rate:		   0,
+	},
+	{	// レベル1
+		TargetHinshis: []string{"形容詞"},
+		Rate:		   40,
+	},
+	{	// レベル2
+		TargetHinshis: []string{"助動詞", "形容詞"},
+		Rate:		   60,
+	},
+	{	// レベル3
+		TargetHinshis: []string{"助動詞", "形容詞"},
+		Rate:		   100,
+	},
+}
+
 // Config ... main で受け取られる引数、オプション
 type Config struct {
 	TargetName        string `docopt:"<name>"`
@@ -55,14 +91,18 @@ func Start(config Config) (string, error) {
 
 	// メッセージに含まれるタグを変換
 	selectedMessage = pattern.ConvertTags(selectedMessage, config.TargetName, config.EmojiNum)
-
-	level := config.PunctiuationLevel
-	if level < 0 || level > 3 {
-		return "", fmt.Errorf("句読点挿入頻度レベルが不正です: %v", level)
+  
+	plevel := 3 // config.PunctiuationLevel
+	hlevel := 3 // config.HappyLevel
+	if plevel < 0 || plevel > 3 {
+		return "", fmt.Errorf("句読点挿入頻度レベルが不正です: %v", plevel)
+	}
+	if hlevel < 0 || hlevel > 3 {
+		return "", fmt.Errorf("ハッピーレベルが不正です: %v", hlevel)
 	}
 	// 句読点レベルに応じて、おじさんのように文中に句読点を適切に挿入する
-	result := insertPunctuations(selectedMessage, pconfigs[level])
-	result = insertLower(result)
+	result := insertPunctuations(selectedMessage, pconfigs[plevel], plevel)
+	result = insertHappyWords(result, hconfigs[hlevel])
 	return result, nil
 }
 
@@ -125,7 +165,7 @@ func insertHappyWords() string {
 }
 
 // 句読点レベルに応じ、助詞、助動詞の後に句読点を挿入する
-func insertPunctuations(message string, config PunctuationConfig) string {
+func insertPunctuations(message string, config PunctuationConfig, plevel int) string {
 	if config.Rate == 0 {
 		return message
 	}
@@ -148,7 +188,37 @@ func insertPunctuations(message string, config PunctuationConfig) string {
 			}
 		}
 		if hinshiFlag && rand.Intn(100) <= config.Rate {
-			result += token.Surface + "、、、"
+			result += token.Surface + strings.Repeat("、", plevel)
+		} else {
+			result += token.Surface
+		}
+	}
+	return result
+}
+
+// マジや卍などを挿入する
+func insertHappyWords(message string, config PunctuationConfig) string {
+	if config.Rate == 0 {
+		return message
+	}
+	rand.Seed(time.Now().UnixNano())
+	result := ""
+	t := tokenizer.NewWithDic(tokenizer.SysDicIPASimple())
+	tokens := t.Tokenize(message)
+	for _, token := range tokens {
+		if token.Class == tokenizer.DUMMY {
+			continue
+		}
+		features := token.Features()
+		hinshiFlag := false
+		for _, hinshi := range config.TargetHinshis {
+			if hinshi == features[0] {
+				hinshiFlag = true
+				break
+			}
+		}
+		if hinshiFlag && rand.Intn(100) <= config.Rate {
+			result += frontHappyWords[rand.Intn(len(frontHappyWords))] + token.Surface + backHappyWords[rand.Intn(len(backHappyWords))]
 		} else {
 			result += token.Surface
 		}
